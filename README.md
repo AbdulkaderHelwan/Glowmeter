@@ -67,19 +67,3 @@ prisma/schema.prisma      # Scan / User / Reminder models (SQLite)
 
 ---
 
-## Push to GitHub
-
-From inside this folder:
-
-```bash
-git init
-git add .
-git commit -m "GlowScan AI: face-detection coordinate fix + facial geometry engine"
-
-# create an empty repo on github.com first, then:
-git remote add origin https://github.com/<your-username>/glowscan-ai.git
-git branch -M main
-git push -u origin main
-```
-
-`.env` is gitignored, so your local DB path won't be committed — collaborators copy `.env.example` to `.env`.
