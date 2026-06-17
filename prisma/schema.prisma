@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String?  @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  scans     Scan[]
+  reminders Reminder[]
+}
+
+model Scan {
+  id                String   @id @default(cuid())
+  userId            String
+  analysisType      String   // 'skin' | 'cosmetics' | 'longevity'
+  overallScore      Int
+  biologicalAge     Int?
+  chronologicalAge  Int?
+  ageGap            Int?
+  longevityScore    Int?
+  longevityCategory String?
+  skinType          String?
+  makeupStyle       String?
+  resultData        String   // Full JSON of the analysis result
+  imageData         String?  // Base64 thumbnail for history display
+  createdAt         DateTime @default(now())
+  user              User     @relation(fields: [userId], references: [id])
+}
+
+model Reminder {
+  id        String   @id @default(cuid())
+  userId    String
+  email     String
+  scanId    String
+  remindAt  DateTime
+  sent      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
